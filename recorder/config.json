@@ -1,0 +1,11 @@
+{
+    "redisEndpoint": "redis://:<KEY>@<URL>:<PORT>",
+    "telegramToken": "<TOKEN>",
+    "telegramChats": [0, 1, 2, 3],
+    "inputSettings": "-f video4linux2 -input_format yuyv422 -video_size 640x480 -i /dev/video0",
+    "codecSettings": "-c:v libx264 -crf 21 -preset veryfast -g 30 -sc_threshold 0",
+    "hlsSettings": "-f hls -hls_time 1 -hls_start_number_source epoch -hls_flags omit_endlist -hls_list_size 1",
+    "overlaySettings": "-vf drawtext=text=%{localtime}:borderw=2:bordercolor=white",
+    "internalPort": 8000,
+    "cameraName": "webcam"
+}
