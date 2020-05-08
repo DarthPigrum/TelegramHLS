@@ -22,7 +22,8 @@ Client requires only Telegram Bot API token and Redis endpoint URL
 ```javascript
 {
     "redisEndpoint": "redis://:<KEY>@<URL>:<PORT>",
-    "telegramToken": "<TOKEN>"
+    "telegramToken": "<TOKEN>",
+    "port": 8080
 }
 ```
 With server running, client web application is available at port 8000. Playlist links are intended to be used in media players(e.g VLC)

@@ -1,4 +1,5 @@
 {
     "redisEndpoint": "redis://:<KEY>@<URL>:<PORT>",
-    "telegramToken": "<TOKEN>"
+    "telegramToken": "<TOKEN>",
+    "port": 8080
 }

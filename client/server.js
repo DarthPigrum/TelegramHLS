@@ -66,4 +66,4 @@ http
       });
     }
   })
-  .listen(8000);
+  .listen(config.port);
