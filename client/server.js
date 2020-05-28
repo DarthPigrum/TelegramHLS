@@ -16,16 +16,16 @@ const httpError = (res, status, message) => {
   res.end(message);
 };
 
-const config = JSON.parse(fs.readFileSync('config.json'));
+global.config = JSON.parse(fs.readFileSync('config.json'));
 
-global.redis = new Redis(config.redisEndpoint);
-global.telegram = new Telegram(config.telegramToken);
+global.redis = new Redis(global.config.redisEndpoint);
+global.telegram = new Telegram(global.config.telegramToken);
 global.telegram.getFileLink = setMaximalConcurrency(
   global.telegram.getFileLink.bind(global.telegram),
   16
 );
 
-fs.readdirSync(apiPath).forEach(name => {
+fs.readdirSync(apiPath).forEach((name) => {
   const filePath = apiPath + name;
   const key = path.basename(filePath, '.js');
   try {
@@ -43,14 +43,14 @@ fs.readdirSync(apiPath).forEach(name => {
 });
 
 http
-  .createServer(async (req, res) => {
+  .createServer(async(req, res) => {
     const url = req.url === '/' ? '/index.html' : req.url;
     const [first, second, ...args] = url.substring(1).split('/');
     if (first === 'api') {
       const method = api.get(second);
       try {
         const result = await method(...args);
-        if (typeof result !== 'string') {
+        if (typeof result !== 'string' && !(result instanceof Buffer)) {
           httpError(res, 500, 'Server error');
           return;
         }
@@ -60,10 +60,10 @@ http
       }
     } else {
       const path = `./static${url}`;
-      fs.exists(path, exists => {
+      fs.exists(path, (exists) => {
         if (exists) fs.createReadStream(path).pipe(res);
         else httpError(res, 404, 'File is not found');
       });
     }
   })
-  .listen(config.port);
+  .listen(global.config.port);

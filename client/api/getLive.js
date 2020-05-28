@@ -1,5 +1,5 @@
 'use strict';
-module.exports = async camera => {
+module.exports = async(camera, isProxied = false) => {
   const [id, timestamp] = await global.redis.zrange(
     camera,
     -1,
@@ -11,5 +11,11 @@ module.exports = async camera => {
 #EXT-X-TARGETDURATION:1
 #EXT-X-MEDIA-SEQUENCE:${timestamp}
 #EXTINF:1.000000,
-${await global.telegram.getFileLink(id)}`;
+${
+  isProxied ?
+    `/api/getRawChunk/${(await global.telegram.getFileLink(id))
+      .split('/')
+      .pop()}` :
+    await global.telegram.getFileLink(id)
+}`;
 };

@@ -1,5 +1,5 @@
 'use strict';
-module.exports = async (camera, start, end) =>
+module.exports = async(camera, start, end) =>
   (start && end ?
     global.redis.zrangebyscore(
       camera,
@@ -9,12 +9,12 @@ module.exports = async (camera, start, end) =>
     ) :
     global.redis.zrange(camera, 0, 2e9, 'WITHSCORES')
   )
-    .then(arr =>
+    .then((arr) =>
       arr
         .filter((value, index) => index % 2)
-        .map(timestamp => parseInt(timestamp))
+        .map((timestamp) => parseInt(timestamp))
     )
-    .then(arr =>
+    .then((arr) =>
       arr
         .map((v, k) =>
           (v - 1 === arr[k - 1] ?
@@ -27,10 +27,12 @@ module.exports = async (camera, start, end) =>
         .split(',-')
         .join('-')
     )
-    .then(str => str.substring(0, str.length - 1))
-    .then(arr =>
+    .then((str) => str.substring(0, str.length - 1))
+    .then((arr) =>
       arr
         .split(',')
-        .map(range => range.split('-').map(timestamp => parseInt(timestamp)))
+        .map((range) =>
+          range.split('-').map((timestamp) => parseInt(timestamp))
+        )
     )
     .then(JSON.stringify);
