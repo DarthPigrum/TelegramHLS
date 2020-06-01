@@ -51,7 +51,7 @@ window.onload = () => {
   rangesPromise.then((arr) => {
     if (new Date() / 1000 - arr[arr.length - 1][1] < 30) {
       document.getElementById('liveButton').onclick = () =>
-        playSource(`/api/getLive/${localStorage.getItem('camera')}`);
+        playSource(`/api/getLive/${localStorage.getItem('camera')}/proxied.m3u8`);
     } else {
       document.getElementById('liveButton').style.display = 'none';
     }
